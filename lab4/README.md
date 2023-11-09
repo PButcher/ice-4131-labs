@@ -76,6 +76,8 @@ To make it absolutely certain that we make the right choice, let's plot the data
 
 ```py
 #!/usr/bin/env python3
+import matplotlib
+matplotlib.use('Agg')  # Use the 'Agg' backend, which is non-GUI
 
 import matplotlib.pyplot as plt # For plotting
 import pandas as pd # Python data analysis library
