@@ -282,7 +282,11 @@ We use an environment variable, `SLURM_CPUS_PER_TASK`. It corresponds to the num
 
 ## STEP 4: Working with remote files locally
 
-Now that you should be fairly up to speed with `nano`, `emacs`, `vi`, or `vim`, depending on which you have been using, we will now learn how to use Visual Studio Code [VSCode](https://code.visualstudio.com) to make changes to our remote files, from our local machine:
+Now that you should be fairly up to speed with `nano`, `emacs`, `vi`, or `vim`, depending on which you have been using, we will now learn how to use Visual Studio Code [VSCode](https://code.visualstudio.com) to make changes to our remote files, from our [personal](#personal-machines) and [university](#university-machines) machines:
+
+### Personal Machines
+
+To use VSCode using your own personal machine:
 
 - On windows, the default location of the OpenSSH config file is at: `%programdata%\ssh\sshd_config` ([read more](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh-server-configuration#openssh-configuration-files)). Add the following code to your OpenSSH config, updating `YourBangorUsername` and `YourHawkUsername` accordingly:
 
@@ -310,6 +314,22 @@ ssh hawk
 ```
 
 Enter your Bangor password first, approve the Bangr MFA request on your phone, and when prompted, enter your SCW password.
+
+### University Machines
+
+To use VSCode using the university machines:
+
+- Navigate to: File -> Preferences -> Backup & Sync
+- Sign in.
+- Once signed in, your settings will be synchronised between any machines you sign in to.
+
+The SSH configuration is **not** included in the settings sync by default. To address this, we can configure VS Code to always reference the same SSH configuration path. If we store the SSH config file on the university M: drive, it will be accessible from any machine across the university:
+
+- Press `Ctrl`+`Shift`+`P` and select Remote-SSH: Open SSH Configuration File.
+- Go to Settings and specify a path like `M:\.ssh\config`.
+- VS Code will auto-create the file (including the necessary parent directories), and this setting will now sync along with your other preferences.
+- Ensure the file is populated with the SSH config [above](#personal-machines).
+- While you will still need to sign in on each new machine, this method avoids the hassle of manually editing the SSH configuration file on multiple machines.
 
 ---
 
