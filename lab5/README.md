@@ -77,6 +77,9 @@ cat timing.csv timing-serial-intel-*.csv timing-serial-gnu-*.csv timing-pthread-
 ```python
 #!/usr/bin/env python3
 
+import matplotlib
+matplotlib.use('Agg') # Use the 'Agg' backend, which is non-GUI
+
 import matplotlib.pyplot as plt # Plotting library
 import pandas as pd # Load the CSV file
 
