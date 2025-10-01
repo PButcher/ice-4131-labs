@@ -4,8 +4,7 @@
 
 **Lab Assistants**:
 
-- Iwan Mitchell ([i.t.mitchell@bangor.ac.uk](mailto:i.t.mitchell@bangor.ac.uk))
-- Frank Williams ([f.j.williams@bangor.ac.uk](mailto:f.j.williams@bangor.ac.uk))
+- Daniel Farmer ([d.farmer@bangor.ac.uk](mailto:d.farmer@bangor.ac.uk))
 
 ### Objectives
 
@@ -37,6 +36,16 @@ To begin with, you will need a user account. Follow the instructions here under 
 When applying for an account, you should state that you are joining project: **scw2139**
 
 It will take some time for your account to be activated, so please be patient once you have submitted your application to join the supercomputer. If you do not have access after 2 working days, please contact the tutor. Begin reading the next steps but do not attempt to log in to the supercomputer until you are notified that your account is active!
+
+## STEP 1B: While you wait
+
+In the meantime, while waiting to be granted access to Supercomputing Wales, you should explore the following:
+
+- [https://portal.supercomputing.wales/index.php/about-hawk/](About Hawk - Technical specification of the supercomputer)
+- [https://portal.supercomputing.wales/](SCW Portal - Familiarise yourselves with the help topics available)
+- [https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/eResearch-Linux-Compute-Cluster.aspx](eResearch Linux Compute Cluster - Bangor's own cluster)
+
+If you are still waiting, log into Bangor's eResearch cluster using the instructions in the link above if connecting from a University machine. If you are connecting from your own device, you must first log in to Bangor's own SSH server: `ssh.bangor.ac.uk` and then you can SSH into the cluster from there.
 
 ---
 
@@ -90,6 +99,8 @@ We will not be submitting jobs to the supercomputer today but will be writing an
 ---
 
 ## STEP 4: Basic Linux Commands
+
+Use the following as a reference while completing the lab exercises. You will get a chance to use these commands later so do not feel as though you need to go through and try each one now. Take a look, and then move on to [step 5](#step-5-compile-some-code).
 
 ### Command Line Basics
 
@@ -208,9 +219,11 @@ If you are not familiar with Emacs, Vi, or Vim, then Nano is recommend as it is 
 
 We’re going to write and compile some C++ code on the supercomputer.
 
-In your home (`cd ~`) directory, create a new sub-directory called `lab1`, enter that directory and create a new subdirectory called `helloworld`, create a new file called `helloworld.cxx` and type the source code as follows using your favourite text editor:
+In your home directory (type: `cd ~`), create a new sub-directory called `lab1` (type: `mkdir lab1`), enter that directory (type: `cd lab1`) and create a new file called `helloworld.cxx` (type: `touch helloworld.cxx`). Copy out the source code as follows using your favourite text editor (e.g. type: `nano helloworld.cxx`):
 
 ![helloworld.png](assets/helloworld.png)
+
+To save the file in `nano` press `CTRL+O` to "write out/save" and `CTRL+X` to "exit".
 
 To create an executable file, you need to compile your source code.
 
@@ -232,7 +245,7 @@ This will return a list of available compilers. For us, we will require one tool
 icc
 ```
 
-The commend prompt will respond with:
+The command prompt will respond with:
 
 ```bash
 -bash: icc: command not found
@@ -293,7 +306,7 @@ void* callback_function(void* param);
    - This method takes four arguments:
      1. A pointer to the `pthread_t` variable,
      2. Any extra attributes (don't worry about this for now - just set it to `NULL`),
-     3. A pointer to the function to call (i.e. the name of the callback) and
+     3. A pointer to the function to call (i.e. the name of the callback), and
      4. The pointer being passed as the argument to the function.
    - Now there's a lot of pointers in that call, but don't stress - it's not as tricky as it sounds. This call will look something like:
 
@@ -302,7 +315,7 @@ pthread_create(&thread0, NULL, callback_function, &parameter);
 ```
 
 6. Join everything back up
-   - When the newly-created thread has finished doing it's bits, we need to join everything back up.
+   - When the newly-created thread has finished doing it's job, we need to join everything back up.
    - This is done by the `pthread_join` function which takes two parameters: the `pthread_t` variable used when `pthread_create` was called (not a pointer this time) and a pointer to the return value pointer (don't worry about this for now - just set it to `NULL`).
    - This call will look something like:
 

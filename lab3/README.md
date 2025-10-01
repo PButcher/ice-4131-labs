@@ -4,8 +4,7 @@
 
 **Lab Assistants**:
 
-- Iwan Mitchell ([i.t.mitchell@bangor.ac.uk](mailto:i.t.mitchell@bangor.ac.uk))
-- Frank Williams ([f.j.williams@bangor.ac.uk](mailto:f.j.williams@bangor.ac.uk))
+- Daniel Farmer ([d.farmer@bangor.ac.uk](mailto:d.farmer@bangor.ac.uk))
 
 ### Objectives
 
