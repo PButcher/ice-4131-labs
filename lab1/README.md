@@ -41,11 +41,11 @@ It will take some time for your account to be activated, so please be patient on
 
 In the meantime, while waiting to be granted access to Supercomputing Wales, you should explore the following:
 
-- [https://portal.supercomputing.wales/index.php/about-hawk/](About Hawk - Technical specification of the supercomputer)
-- [https://portal.supercomputing.wales/](SCW Portal - Familiarise yourselves with the help topics available)
-- [https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/eResearch-Linux-Compute-Cluster.aspx](eResearch Linux Compute Cluster - Bangor's own cluster)
+- [About Hawk - Technical specification of the supercomputer](https://portal.supercomputing.wales/index.php/about-hawk/)
+- [SCW Portal - Familiarise yourselves with the help topics available](https://portal.supercomputing.wales/)
+- [eResearch Linux Compute Cluster - Bangor University's own research computing cluster](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/eResearch-Linux-Compute-Cluster.aspx)
 
-If you are still waiting, log into Bangor's eResearch cluster using the instructions in the link above if connecting from a University machine. If you are connecting from your own device, you must first log in to Bangor's own SSH server: `ssh.bangor.ac.uk` and then you can SSH into the cluster from there.
+If you are still waiting, log into Bangor's eResearch cluster using the instructions in the link above if connecting from a University machine. If you are connecting from your own device, you must first log in to Bangor's own SSH server: `ssh.bangor.ac.uk` using your university username and password, and then you can SSH into the cluster from there.
 
 ---
 
@@ -211,7 +211,7 @@ There are four main console-based text editor:
 | Vi     | `vi`    |
 | Vim    | `vim`   |
 
-If you are not familiar with Emacs, Vi, or Vim, then Nano is recommend as it is easier to get started with.
+If you are not familiar with Emacs, Vi, or Vim, then Nano is recommended as it is easier to get started with. Use `CTRL+O` to save (write out), `CTRL+X` to exit.
 
 ---
 
