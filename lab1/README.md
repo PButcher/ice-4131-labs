@@ -285,9 +285,9 @@ A very common strategy to parallelise code is to identify for/while loops and re
 
 There are 5 main steps to convert serial code to parallel code with Pthreads:
 
-1. All C/C++ programs using Pthreads need to include the `pthread.h` header file.
-2. `#include <pthread.h>` at the top of your file.
-3. Create an entry point for the thread
+1. All C/C++ programs using Pthreads need to include the `pthread.h` header file:
+   - Write `#include <pthread.h>` at the top of your file.
+2. Create an entry point for the thread
    - When creating a thread using Pthreads, you need to point it to a function for it to start execution.
    - It is the thread's callback function.
    - It returns `void*` and takes a single `void*` argument.
@@ -297,11 +297,11 @@ There are 5 main steps to convert serial code to parallel code with Pthreads:
 void* callback_function(void* param);
 ```
 
-4. Define thread reference variables
+3. Define thread reference variables
    - The variable type `pthread_t` is a means of referencing threads.
    - There must be a `pthread_t` variable for every thread being created!
    - For example, it can be: `pthread_t thread0;`
-5. Create the thread
+4. Create the thread
    - Once the `pthread_t` variable has been defined and the entry point function created, we can create the thread using `pthread_create`.
    - This method takes four arguments:
      1. A pointer to the `pthread_t` variable,
@@ -314,7 +314,7 @@ void* callback_function(void* param);
 pthread_create(&thread0, NULL, callback_function, &parameter);
 ```
 
-6. Join everything back up
+5. Join everything back up
    - When the newly-created thread has finished doing it's job, we need to join everything back up.
    - This is done by the `pthread_join` function which takes two parameters: the `pthread_t` variable used when `pthread_create` was called (not a pointer this time) and a pointer to the return value pointer (don't worry about this for now - just set it to `NULL`).
    - This call will look something like:
