@@ -130,7 +130,7 @@ $
 A job consists of two things:
 
 1. **Resource requests**, which consist of a number of CPUs, the expected duration of computation and the amount of required RAM or disk space etc.
-2. **Job steps** describe the tasks that must be done, softwre which must be run.
+2. **Job steps** describe the tasks that must be done, software which must be run.
 
 It's time to creatre a job.
 
