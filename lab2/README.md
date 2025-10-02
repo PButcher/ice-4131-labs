@@ -63,7 +63,7 @@ dev          up    1:00:00      1    mix ccs0135
 dev          up    1:00:00      1  alloc ccs0136
 ```
 
-The comamnd `sinfo` can output the information in a node-oriented fashio, with the argument `-N -l`. Try them:
+The command `sinfo` can output the information in a node-oriented fashion, with the argument `-N -l`. Try them:
 
 ```bash
 sinfo -N -l
@@ -99,7 +99,7 @@ ccs2002        1       gpu   allocated   40   2:20:1 383000        0      1   (n
 The `squeue` comamnd shows the list of jobs that are currently running, these are either:
 
 - Running, denoted as `R`
-- Waiting for resources, denoted as `PD`
+- Waiting for resources, denoted as `PD` (pending)
 
 Try it:
 
@@ -113,7 +113,7 @@ You should see all the current jobs. In most cases, you are only interested in y
 squeue -u $USER
 ```
 
-Expected output is similar to:
+Expected output, once you have submitted jobs, is similar to:
 
 ```bash
 JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
