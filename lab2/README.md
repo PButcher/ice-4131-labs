@@ -132,7 +132,7 @@ A job consists of two things:
 1. **Resource requests**, which consist of a number of CPUs, the expected duration of computation and the amount of required RAM or disk space etc.
 2. **Job steps** describe the tasks that must be done, software which must be run.
 
-It's time to creatre a job.
+It's time to create a job.
 
 Ensure you are in your home directory with `cd ~`. This is a shortcut to navigating to the root of your working directory on the supercomputer, also known as 'home'.
 
