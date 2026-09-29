@@ -33,7 +33,7 @@ To begin with, you will need a user account. Follow the instructions here under 
 
 [https://portal.supercomputing.wales/index.php/getting-access/](https://portal.supercomputing.wales/index.php/getting-access/)
 
-When applying for an account, you should state that you are joining project: **scw2139**
+When applying for an account, you should state that you are joining project: **SCWF00238_p_butcher_233**
 
 It will take some time for your account to be activated, so please be patient once you have submitted your application to join the supercomputer. If you do not have access after 2 working days, please contact the tutor. Begin reading the next steps but do not attempt to log in to the supercomputer until you are notified that your account is active!
 
@@ -41,7 +41,7 @@ It will take some time for your account to be activated, so please be patient on
 
 In the meantime, while waiting to be granted access to Supercomputing Wales, you should explore the following:
 
-- [About Hawk - Technical specification of the supercomputer](https://portal.supercomputing.wales/index.php/about-hawk/)
+- [About Falcon - Technical specification of the supercomputer](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/The-Falcon-Supercomputer.aspx)
 - [SCW Portal - Familiarise yourselves with the help topics available](https://portal.supercomputing.wales/)
 - [eResearch Linux Compute Cluster - Bangor University's own research computing cluster](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/eResearch-Linux-Compute-Cluster.aspx)
 
@@ -51,17 +51,10 @@ If you are still waiting, log into Bangor's eResearch cluster using the instruct
 
 ## STEP 2: Logging in to the Supercomputer
 
-Once you have been notified that your account has been opened, follow the instructions on the “Accessing the system” page:
+Once you have been notified that your account has been opened, follow the instructions on the “Connecting to Falcon” page:
+[[https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/The-Falcon-Supercomputer---Connecting.aspx](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/The-Falcon-Supercomputer---Connecting.aspx)]
 
-[https://portal.supercomputing.wales/index.php/index/accessing-the-system/](https://portal.supercomputing.wales/index.php/index/accessing-the-system/)
-
-Bangor users must connect to hawk via Bangor's own SSH server: `ssh.bangor.ac.uk`. Up to date instructions on connecting to Hawk for Bangor users can be found here:
-
-[https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/eResearch---Access-to-the-Hawk-Supercomputer.aspx](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/eResearch---Access-to-the-Hawk-Supercomputer.aspx)
-
-> Please note: There are different instructions for accessing the supercomputer on Windows and Linux/MacOS.
-
-Remember that when accessing Hawk, your username must be prefixed by `b.` for example:
+Remember that when accessing Falcon, your username must be prefixed by `b.` for example:
 
 ```bash
 b.abc24def
@@ -70,7 +63,7 @@ b.abc24def
 An example login would therefore be:
 
 ```bash
-b.abc24def@hawklogin.cf.ac.uk
+b.abc24def@falconlogin.cf.ac.uk
 ```
 
 Please note: If you have 2 failed login attempts and fail to login after the third attempt, the IP address of the machine you are using will be banned from accessing the supercomputer for 24 hours. As such, if you cannot remember your password after 2 attempts, reset it at [https://my.supercomputing.wales](https://my.supercomputing.wales).
@@ -80,6 +73,20 @@ Please note: If you have 2 failed login attempts and fail to login after the thi
 ## STEP 3: What you now have access to
 
 Once logged in, you will have access to:
+- Over 10,000 cores 
+- 1.1 PB of usable storafge
+- 457.2 TB long term storage
+
+- Nvidia Mellanox InfiniBand HDR (200 Gbps / 1.0 μsec) connecting nodes.
+
+The cores we will be using are:
+
+- CPU: AMD EPYC 9654 “Genoa” @ 2.4 GHz
+- Cores per node: 192
+- Memory: 768 GB per node (4 GB per core)
+- Local Storage: OS SSD Micron 5400 MAX 480GB, SATA, 2.5", 3D TLC, 5DWPD,7mm
+
+### For reference Hawk (the previous super computer) had:
 
 - 201 nodes,
 - totalling 8,040 cores,
@@ -250,14 +257,6 @@ The command prompt will respond with:
 ```bash
 -bash: icc: command not found
 ```
-
-If you type `g++ --version` you will get an old version of g++. We will be using one of the latest GNU compilers, to install it, type:
-
-```bash
-module load compiler/gnu/9/2.0
-```
-
-This will load in the new compiler we wish to use. Now if you type in `g++ --version` you will see `g++ (GCC) 9.2.0`
 
 To save having to type this in each time we log into the machine, we have put these commands in a batch script for you - this is a short text file that contains the above commands. Let's now start to look at compiling the example code, and using the batch script file to save typing. This is covered in the next section.
 

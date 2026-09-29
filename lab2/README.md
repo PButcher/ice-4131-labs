@@ -36,9 +36,9 @@ The overall topology of the supercomputer looks like:
 
 ![Topology of SCW](assets/topology-2024.png)
 
-It is not good practice to run your code on the Bangor SSH server or the Hawk login server when using a supercomputer. This is because the execution will be performed on either `ssh.bangor.ac.uk` or `hawklogin.cf.ac.uk` directly, rather than on one of the Hawk compute nodes you can see on the diagram above. **All** users that are currently logged in are using `ssh.bangor.ac.uk` or `hawklogin.cf.ac.uk`, sharing its resources, so every time you run a program there, you are using resources that could be used by other users as they log in. Running large jobs on the login servers can deny some users from even accessing the sueprcomputer completely.
+It is not good practice to run your code on the Bangor SSH server or the Falcon login server when using a supercomputer. This is because the execution will be performed on either `ssh.bangor.ac.uk` or `falconlogin.cf.ac.uk` directly, rather than on one of the Falcon compute nodes you can see on the diagram above. **All** users that are currently logged in are using `ssh.bangor.ac.uk` or `falconlogin.cf.ac.uk`, sharing its resources, so every time you run a program there, you are using resources that could be used by other users as they log in. Running large jobs on the login servers can deny some users from even accessing the sueprcomputer completely.
 
-It is therefore essential that you check you're connected to `hawklogin.cf.ac.uk` and use [SLURM](https://slurm.schedmd.com/documentation.html) to make sure your code is running on a dedicated compute node rather than a shared resource. This way you can maximise performance, and you won't annoy other users.
+It is therefore essential that you check you're connected to `falconlogin.cf.ac.uk` and use [SLURM](https://slurm.schedmd.com/documentation.html) to make sure your code is running on a dedicated compute node rather than a shared resource. This way you can maximise performance, and you won't annoy other users.
 
 ### `sinfo`
 
@@ -146,11 +146,16 @@ nano submit.sh
 The file should contain the following:
 
 ```bash
-#!/bin/bash
+#!/bin/bash --login
 #
 #SBATCH --job-name=my_test           # Job name
-#SBATCH --account=scw2139            # SCW project code
+#SBATCH --output=test.txt
+#SBATCH -A SCWF00238_p_butcher_233    # SCW project code
+#SBATCH --partition=htc_genoa
 #SBATCH --ntasks=1                   # Run a single task
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --nodes=1
 #SBATCH --mem=600mb                  # Total memory limit
 #SBATCH --time=00:15:00              # Time limit hrs:min:sec
 
@@ -169,13 +174,13 @@ echo EXIT
 This short program sets up a batch job on the supercomputer, prints the hostname and the contents of your home directory to the terminal window, then sleeps for 15s before exiting.
 
 > **PRO TIP:**  
-> If you don't want to remember the project code `scw2139` each time, modify the file `.bashrc` in your home directory:
+> If you don't want to remember the project code `SCWF00238_p_butcher_233` each time, modify the file `.bashrc` in your home directory:
 >
 > - Run `chmod +w .bashrc` in your home directory to add the write permission to the file
 > - Add the following line to .bashrc:
 >
 > ```bash
-> export PROJECT=scw2139
+> export PROJECT=SCWF00238_p_butcher_233
 > ```
 >
 > After saving, run the `bash` command. Now the environment variable `$PROJECT` is available every time you need to refer to the SCW project code. If you follow this step, you can replace line 4 of `submit.sh` with:
@@ -195,13 +200,7 @@ This is because we are only using 1 thread in this case.
 To launch your first job, you need to use `sbatch` as follows:
 
 ```bash
-sbatch --account=scw2139 submit.sh
-```
-
-If you followed the **PRO TIP** above, this would be:
-
-```bash
-sbatch --account=$PROJECT submit.sh
+sbatch submit.sh
 ```
 
 In the console, you will see the job number, e.g.:
@@ -258,21 +257,28 @@ g++ helloworld-pthread4.cxx -lpthread -o helloworld-pthread4
 - Create a new file named `submit.sh` containing:
 
 ```bash
-#!/bin/bash
+#!/bin/bash --login
 #
 #SBATCH --job-name=my_test           # Job name
-#SBATCH --account=scw2139            # SCW project code
-#SBATCH --nodes=1                    # Use one node
+#SBATCH --output=test.txt
+#SBATCH -A SCWF00238_p_butcher_233    # SCW project code
+#SBATCH --partition=htc_genoa
+#SBATCH --ntasks=1                   # Run a single task
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --nodes=1
 #SBATCH --mem=600mb                  # Total memory limit
 #SBATCH --time=00:15:00              # Time limit hrs:min:sec
 
 ./helloworld-pthread4 $SLURM_CPUS_PER_TASK
+
+
 ```
 
 - To launch the job, use the following code, replacing **`N`** with a number between 1 and 40:
 
 ```bash
-sbatch --account=scw2139 -c N submit.sh
+sbatch -c N submit.sh
 ```
 
 We use an environment variable, `SLURM_CPUS_PER_TASK`. It corresponds to the number of threads that you want to use. We requested one computing node with `#SBATCH --nodes=1`, and the maximum number of CPU cores is 40. Now, test your code with various numbers of threads (update `N`) and check the contents in the output files. Note that you do not need to create a new submit.sh for each test, you can re-use it in this case!
@@ -287,7 +293,7 @@ Now that you should be fairly up to speed with `nano`, `emacs`, `vi`, or `vim`, 
 
 To use VSCode using your own personal machine:
 
-- On windows, the default location of the OpenSSH config file is at: `%programdata%\ssh\sshd_config` ([read more](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh-server-configuration#openssh-configuration-files)). Add the following code to your OpenSSH config, updating `YourBangorUsername` and `YourHawkUsername` accordingly:
+- On windows, the default location of the OpenSSH config file is at: `%programdata%\ssh\sshd_config` ([read more](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh-server-configuration#openssh-configuration-files)). Add the following code to your OpenSSH config, updating `YourBangorUsername` and `YourFalconUsername` accordingly:
 
 ```bash
 # Bangor University SSH Gateway
@@ -296,20 +302,20 @@ Host bangor-gateway
     User YourBangorUsername
     Port 22
 
-# Hawk Supercomputer
-Host hawk
-    HostName hawklogin.cf.ac.uk
-    User YourHawkUsername
+# Falcon Supercomputer
+Host falcon
+    HostName falconlogin.cf.ac.uk
+    User YourFalconUsername
     Port 22
     ProxyJump bangor-gateway
 ```
 
-- For Mac/Linux, follow the **Advanced: Automating Part of Connecting to Hawk by Using a Jump Host** instructions under "Connect Using a Terminal (Linux/Mac)" [here](<https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/eResearch---Access-to-the-Hawk-Supercomputer.aspx#connecting-using-a-terminal-(linux-mac)>).
+- For Mac/Linux, follow the **Advanced: Automating Part of Connecting to Falcon by Using a Jump Host** instructions under "Connect Using a Terminal (Linux/Mac)" [here](<https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/eResearch---Access-to-the-Hawk-Supercomputer.aspx#connecting-using-a-terminal-(linux-mac)>).
 
-Once your SSH config is configured on Windows/Linux/Mac, you will be able to login to Hawk using a single command:
+Once your SSH config is configured on Windows/Linux/Mac, you will be able to login to Falcon using a single command:
 
 ```bash
-ssh hawk
+ssh falcon
 ```
 
 Enter your Bangor password first, approve the Bangr MFA request on your phone, and when prompted, enter your SCW password.
@@ -339,6 +345,6 @@ You can set up SSH keys on your operating system for passwordless entry to the s
 - Windows: Follow **Advanced** instructions under "Connect using PuTTy (Windows)" [here](<https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/eResearch---Access-to-the-Hawk-Supercomputer.aspx#connecting-using-putty-(windows)>).
 - Linux/Mac: Follow step 3 of the **Advanced** instructions under "Connect Using a Terminal (Linux/Mac)" [here](<https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/eResearch---Access-to-the-Hawk-Supercomputer.aspx#connecting-using-a-terminal-(linux-mac)>).
 
-You can now log into Hawk without your SCW password.
+You can now log into Falcon without your SCW password.
 
 **This concludes lab 2**
