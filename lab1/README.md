@@ -29,9 +29,9 @@ The tasks for this lab are as follows:
 
 ## STEP 1: Getting Access to the Supercomputer
 
-To begin with, you will need a user account. Follow the instructions here under “Applying for a user account”:
+To begin with, you will need a user account. Follow the instructions here:
 
-[https://portal.supercomputing.wales/index.php/getting-access/](https://portal.supercomputing.wales/index.php/getting-access/)
+- [Registering as a Falcon User](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/The-Falcon-Supercomputer---User_Access.aspx)
 
 When applying for an account, you should state that you are joining project: **SCWF00238_p_butcher_233**
 
@@ -41,18 +41,18 @@ It will take some time for your account to be activated, so please be patient on
 
 In the meantime, while waiting to be granted access to Supercomputing Wales, you should explore the following:
 
-- [About Falcon - Technical specification of the supercomputer](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/The-Falcon-Supercomputer.aspx)
-- [SCW Portal - Familiarise yourselves with the help topics available](https://portal.supercomputing.wales/)
+- [The Falcon Supercomputer](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/The-Falcon-Supercomputer.aspx)
 - [eResearch Linux Compute Cluster - Bangor University's own research computing cluster](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/eResearch-Linux-Compute-Cluster.aspx)
 
-If you are still waiting, log into Bangor's eResearch cluster using the instructions in the link above if connecting from a University machine. If you are connecting from your own device, you must first log in to Bangor's own SSH server: `ssh.bangor.ac.uk` using your university username and password, and then you can SSH into the cluster from there.
+If you are still waiting, log into Bangor's eResearch cluster, a separate dedicated HPC environment the University runs, using the instructions in the link above if connecting from a University machine. If you are connecting from your own device, you must first log in to Bangor's own SSH server: `ssh.bangor.ac.uk` using your university username and password, and then you can SSH into the cluster from there.
 
 ---
 
 ## STEP 2: Logging in to the Supercomputer
 
-Once you have been notified that your account has been opened, follow the instructions on the “Connecting to Falcon” page:
-[[https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/The-Falcon-Supercomputer---Connecting.aspx](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/The-Falcon-Supercomputer---Connecting.aspx)]
+Once you have been notified that your account has been opened, follow these instructions:
+
+- [Connecting to Falcon](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/The-Falcon-Supercomputer---Connecting.aspx)
 
 Remember that when accessing Falcon, your username must be prefixed by `b.` for example:
 
@@ -66,17 +66,17 @@ An example login would therefore be:
 b.abc24def@falconlogin.cf.ac.uk
 ```
 
-Please note: If you have 2 failed login attempts and fail to login after the third attempt, the IP address of the machine you are using will be banned from accessing the supercomputer for 24 hours. As such, if you cannot remember your password after 2 attempts, reset it at [https://my.supercomputing.wales](https://my.supercomputing.wales).
+Please note: If you have 2 failed login attempts and fail to login after the third attempt, the IP address of the machine you are using will be banned from accessing the supercomputer for 24 hours. As such, if you cannot remember your password after 2 attempts, reset it at [https://cogs.cf.ac.uk](https://cogs.cf.ac.uk).
 
 ---
 
 ## STEP 3: What you now have access to
 
 Once logged in, you will have access to:
-- Over 10,000 cores 
-- 1.1 PB of usable storafge
-- 457.2 TB long term storage
 
+- Over 10,000 cores
+- 1.1 PB of usable storage
+- 457.2 TB long term storage
 - Nvidia Mellanox InfiniBand HDR (200 Gbps / 1.0 μsec) connecting nodes.
 
 The cores we will be using are:
@@ -86,7 +86,7 @@ The cores we will be using are:
 - Memory: 768 GB per node (4 GB per core)
 - Local Storage: OS SSD Micron 5400 MAX 480GB, SATA, 2.5", 3D TLC, 5DWPD,7mm
 
-### For reference Hawk (the previous super computer) had:
+### For reference Hawk (the previous supercomputer) had:
 
 - 201 nodes,
 - totalling 8,040 cores,
