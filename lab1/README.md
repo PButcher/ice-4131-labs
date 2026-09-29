@@ -258,7 +258,9 @@ The command prompt will respond with:
 -bash: icc: command not found
 ```
 
-To save having to type this in each time we log into the machine, we have put these commands in a batch script for you - this is a short text file that contains the above commands. Let's now start to look at compiling the example code, and using the batch script file to save typing. This is covered in the next section.
+If you type `g++ --version` you should see that a version of the GNU compiler is available to you. If not, type `module avail gcc/` you should see some available GNU compilers. To load a different version, use `module load NAME_OF_COMPILER` replacing `NAME_OF_COMPILER` with the version you would like to use.
+
+To save having to type this in each time we log into the machine, we have put these commands in a batch script for you - this is a short text file that contains the above commands. Let's now start to look at compiling the example code, and using the batch script file to save typing. This is covered in the next lab.
 
 To compile your source code, just type:
 
