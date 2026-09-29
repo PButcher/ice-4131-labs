@@ -32,9 +32,9 @@ So far you have executed your programs using `./PROGRAM_NAME`, e.g.:
 ./helloworld
 ```
 
-The overall topology of the supercomputer looks like:
+The overall topology of the Falcon supercomputer looks like:
 
-![Topology of SCW](assets/topology-2024.png)
+![Topology of SCW](assets/topology-2026.png)
 
 It is not good practice to run your code on the Bangor SSH server or the Falcon login server when using a supercomputer. This is because the execution will be performed on either `ssh.bangor.ac.uk` or `falconlogin.cf.ac.uk` directly, rather than on one of the Falcon compute nodes you can see on the diagram above. **All** users that are currently logged in are using `ssh.bangor.ac.uk` or `falconlogin.cf.ac.uk`, sharing its resources, so every time you run a program there, you are using resources that could be used by other users as they log in. Running large jobs on the login servers can deny some users from even accessing the sueprcomputer completely.
 
@@ -42,25 +42,40 @@ It is therefore essential that you check you're connected to `falconlogin.cf.ac.
 
 ### `sinfo`
 
-The `sinfo` commend lists the partitions that are available to you. A partition is a set of compute nodes (computers dedicated to... computing), grouped logically. Typical examples include partitions dedicated to batch processing, debugging, post processing, or visualization. Try to run the `sinfo` command and see if you can work out what this readout does.
+The `sinfo` command lists the partitions that are available to you. A partition is a set of compute nodes (computers dedicated to... computing), grouped logically. Typical examples include partitions dedicated to batch processing, debugging, post processing, or visualization. Try to run the `sinfo` command and see if you can work out what this readout does.
 
-Expected output is similar to:
+You should see output similar to:
 
 ```bash
-PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-compute*     up 3-00:00:00      9    mix ccs[0120,0122,0126,0129-0130,0132-0133,1010,1018]
-compute*     up 3-00:00:00    141  alloc ccs[0001-0119,0121,0123-0125,0127-0128,0134,1009,1011-1017,1019-1022,1024-1026]
-compute*     up 3-00:00:00      2   idle ccs[0131,1023]
-highmem      up 3-00:00:00      2    mix ccs[1010,1018]
-highmem      up 3-00:00:00     23  alloc ccs[1001-1009,1011-1017,1019-1022,1024-1026]
-highmem      up 3-00:00:00      1   idle ccs1023
-gpu          up 2-00:00:00      3    mix ccs[2003,2010-2011]
-gpu          up 2-00:00:00     10  alloc ccs[2001-2002,2004-2009,2012-2013]
-htc          up 3-00:00:00     15    mix ccs[0120,0122,0126,0129-0130,0132-0133,1010,1018,2010-2011,3004,3012,3015,3024]
-htc          up 3-00:00:00     48  alloc ccs[0121,0123-0125,0127-0128,0134,1009,1011-1017,1019-1022,1024-1026,2008-2009,2012-2013,3001-3003,3005-3011,3013-3014,3016-3023,3025-3026]
-htc          up 3-00:00:00      2   idle ccs[0131,1023]
-dev          up    1:00:00      1    mix ccs0135
-dev          up    1:00:00      1  alloc ccs0136
+PARTITION         AVAIL  TIMELIMIT  NODES  STATE NODELIST
+compute*             up 3-00:00:00      4   resv cca[0010,0014-0015,0017]
+compute*             up 3-00:00:00      5    mix cca[0002-0004,0013,0018]
+compute*             up 3-00:00:00      8  alloc cca[0001,0005-0009,0011-0012]
+compute*             up 3-00:00:00      1   idle cca0016
+gpu_l40s             up 3-00:00:00      2    mix ccigl[0001-0002]
+gpu_h100             up 3-00:00:00      1    mix ccigh0001
+gpu_h200             up 3-00:00:00      1    mix ccigh0002
+gpu_v100             up 3-00:00:00     12   idle hawkccs[2101-2112]
+gpu_v100_dev         up      20:00      1 drain$ hawkccs2115
+ondemand_gpu_v100    up   12:00:00      2   idle hawkccs[2113-2114]
+highmem              up 3-00:00:00      1   mix- ccah0005
+highmem              up 3-00:00:00      1    mix ccah0006
+highmem              up 3-00:00:00      6  alloc ccah[0001-0004,0007-0008]
+htc_genoa            up 3-00:00:00      1   resv cca0025
+htc_genoa            up 3-00:00:00     10    mix cca[0019-0021,0024,0027-0028,0033-0035,0038]
+htc_genoa            up 3-00:00:00      8  alloc cca[0022-0023,0026,0029-0030,0036-0037,0039]
+compute_rome         up 3-00:00:00      1  maint hawkcca0027
+compute_rome         up 3-00:00:00      2 drain* hawkcca[0015-0016]
+compute_rome         up 3-00:00:00      1  drain hawkcca0018
+compute_rome         up 3-00:00:00      4    mix hawkcca[0023-0024,0026,0028]
+compute_rome         up 3-00:00:00      6  alloc hawkcca[0017,0019-0022,0025]
+htc_rome             up 3-00:00:00      1  maint hawkcca0008
+htc_rome             up 3-00:00:00      2 drain* hawkcca[0005,0007]
+htc_rome             up 3-00:00:00      3  drain hawkcca[0003-0004,0012]
+htc_rome             up 3-00:00:00      2    mix hawkcca[0010,0013]
+htc_rome             up 3-00:00:00      6  alloc hawkcca[0001-0002,0006,0009,0011,0014]
+ondemand_rome        up   12:00:00      4   idle hawkcca[0029-0032]
+dev                  up    1:00:00      2   idle cca[0040-0041]
 ```
 
 The command `sinfo` can output the information in a node-oriented fashion, with the argument `-N -l`. Try them:
@@ -69,30 +84,47 @@ The command `sinfo` can output the information in a node-oriented fashion, with 
 sinfo -N -l
 ```
 
-Expected output is similar to:
+Expected output is similar to the following for Hawk:
 
 ```bash
-Thu Oct 17 11:55:05 2019
-NODELIST   NODES PARTITION       STATE CPUS    S:C:T MEMORY TMP_DISK WEIGHT AVAIL_FE REASON
-ccs0001        1  compute*   allocated   40   2:20:1 191000        0      1   (null) none
-ccs0002        1  compute*   allocated   40   2:20:1 191000        0      1   (null) none
-ccs0003        1  compute*   allocated   40   2:20:1 191000        0      1   (null) none
+Tue Sep 10 10:06:53 2026
+NODELIST     NODES         PARTITION       STATE CPUS    S:C:T MEMORY TMP_DISK WEIGHT AVAIL_FE REASON
+cca0001          1          compute*   allocated 192    2:96:1 770000        0      1   (null) none
+cca0002          1          compute*       mixed 192    2:96:1 770000        0      1   (null) none
+cca0003          1          compute*       mixed 192    2:96:1 770000        0      1   (null) none
 ...
+cca0019          1         htc_genoa       mixed 192    2:96:1 770000        0      1   (null) none
+cca0020          1         htc_genoa       mixed 192    2:96:1 770000        0      1   (null) none
+cca0021          1         htc_genoa       mixed 192    2:96:1 770000        0      1   (null) none
 ...
-ccs0118        1  compute*   allocated   40   2:20:1 191000        0      1   (null) none
-ccs0119        1  compute*   allocated   40   2:20:1 191000        0      1   (null) none
-ccs0120        1       htc       mixed   40   2:20:1 191000        0      1   (null) none
-ccs0120        1  compute*       mixed   40   2:20:1 191000        0      1   (null) none
-ccs0121        1       htc   allocated   40   2:20:1 191000        0      1   (null) none
+cca0040          1               dev        idle 192    2:96:1 770000        0      1   (null) none
+cca0041          1               dev        idle 192    2:96:1 770000        0      1   (null) none
+ccah0001         1           highmem   allocated 192    2:96:1 154400        0      1   (null) none
+ccah0002         1           highmem   allocated 192    2:96:1 154400        0      1   (null) none
+ccah0003         1           highmem   allocated 192    2:96:1 154400        0      1   (null) none
 ...
-...
-ccs1008        1   highmem   allocated   40   2:20:1 383000        0      1   (null) none
-ccs1009        1   highmem   allocated   40   2:20:1 383000        0      1   (null) none
-...
-...
-ccs2001        1       gpu   allocated   40   2:20:1 383000        0      1   (null) none
-ccs2002        1       gpu   allocated   40   2:20:1 383000        0      1   (null) none
+ccigh0001        1          gpu_h100       mixed 64     2:32:1 103170        0      1   (null) none
+ccigh0002        1          gpu_h200       mixed 64     2:32:1 103170        0      1   (null) none
+ccigl0001        1          gpu_l40s       mixed 64     2:32:1 103170        0      1   (null) none
+ccigl0002        1          gpu_l40s       mixed 64     2:32:1 103170        0      1   (null) none
+hawkcca0001      1          htc_rome   allocated 64     2:32:1 257516        0      1   (null) none
+hawkcca0002      1          htc_rome   allocated 64     2:32:1 257516        0      1   (null) none
+hawkcca0003      1          htc_rome     drained 64     2:32:1 257516        0      1   (null) DS-Check_EAR_issue :
+hawkcca0005      1          htc_rome    drained* 64     2:32:1 257516        0      1   (null) CMOS_DEAD
 ```
+
+You can see many interesting pieces of information in these readouts, note the final four lines in this example which included some nodes from Hawk, two of which have current known issues.
+
+The reference for available partitions on Falcon can be found here:
+
+- [Falcon Partition Overview](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/The-Falcon-Supercomputer---Partitions.aspx)
+
+Generally, you can use:
+
+- `htc_genoa` or `htc_rome` for single-threaded, serial CPU jobs
+- `compute` for parallel CPU tasks
+
+You will need to know which partitions to use for which jobs when you write your SLURM scripts later.
 
 ### `squeue`
 
@@ -123,6 +155,11 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 $
 ```
 
+The `ST` column denotes a job's state, typically either `PD` or `R`:
+
+- `PD`: Pending (awaiting allocation)
+- `R`: Running (monitor the `TIME` column once a job starts running, is it running for an expected length of time?)
+
 ---
 
 ## STEP 2: Creating a job
@@ -150,8 +187,8 @@ The file should contain the following:
 #
 #SBATCH --job-name=my_test           # Job name
 #SBATCH --output=test.txt
-#SBATCH -A SCWF00238_p_butcher_233    # SCW project code
-#SBATCH --partition=htc_genoa
+#SBATCH --account=SCWF00238_p_butcher_233   # SCW project code
+#SBATCH --partition=htc_genoa        # Partition
 #SBATCH --ntasks=1                   # Run a single task
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
@@ -171,7 +208,10 @@ sleep 15s
 echo EXIT
 ```
 
-This short program sets up a batch job on the supercomputer, prints the hostname and the contents of your home directory to the terminal window, then sleeps for 15s before exiting.
+This short program sets up a batch job on the supercomputer, prints the hostname and the contents of your home directory to the terminal window, then sleeps for 15s before exiting. Note the following:
+
+- `--account=SCWF00238_p_butcher_233`, can be substituted by running the program with the following flag: `-A SCWF00238_p_butcher_233`. An account is required to run a job.
+- `--partition=htc_genoa`, not specifying an appropriate partition will default to `htc_genoa`, refer to the [Falcon Partition Overview](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/The-Falcon-Supercomputer---Partitions.aspx).
 
 > **PRO TIP:**  
 > If you don't want to remember the project code `SCWF00238_p_butcher_233` each time, modify the file `.bashrc` in your home directory:
@@ -189,13 +229,13 @@ This short program sets up a batch job on the supercomputer, prints the hostname
 > #SBATCH --account=$PROJECT
 > ```
 
-Before you launch your job, type:
+Optionally, before you launch your job, type:
 
 ```bash
 export SCW_TPN_OVERRIDE=1
 ```
 
-This is because we are only using 1 thread in this case.
+This is because we are only using 1 thread in this case and do not want to lock out more resource than we need.
 
 To launch your first job, you need to use `sbatch` as follows:
 
@@ -261,8 +301,8 @@ g++ helloworld-pthread4.cxx -lpthread -o helloworld-pthread4
 #
 #SBATCH --job-name=my_test           # Job name
 #SBATCH --output=test.txt
-#SBATCH -A SCWF00238_p_butcher_233    # SCW project code
-#SBATCH --partition=htc_genoa
+#SBATCH -A SCWF00238_p_butcher_233   # SCW project code
+#SBATCH --partition=htc_genoa.       # Partition
 #SBATCH --ntasks=1                   # Run a single task
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
@@ -271,8 +311,6 @@ g++ helloworld-pthread4.cxx -lpthread -o helloworld-pthread4
 #SBATCH --time=00:15:00              # Time limit hrs:min:sec
 
 ./helloworld-pthread4 $SLURM_CPUS_PER_TASK
-
-
 ```
 
 - To launch the job, use the following code, replacing **`N`** with a number between 1 and 40:
@@ -335,6 +373,8 @@ The SSH configuration is **not** included in the settings sync by default. To ad
 - VS Code will auto-create the file (including the necessary parent directories), and this setting will now sync along with your other preferences.
 - Ensure the file is populated with the SSH config [above](#personal-machines).
 - While you will still need to sign in on each new machine, this method avoids the hassle of manually editing the SSH configuration file on multiple machines.
+
+This is still an experimental feature and may not work all of the time. Ensure you are running an up to date version of VSCode and report any issues to the module organiser.
 
 ---
 
