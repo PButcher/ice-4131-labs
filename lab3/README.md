@@ -58,10 +58,11 @@ cd ice-4131-labs/SimpleRayTracing
    - `env-gnu.sh` that contains
 
    ```bash
-   module purge > /dev/null 2>&1
-   module load cmake
-   module load gnuplot
-   module load compiler/gnu/9/2.0
+    module purge > /dev/null 2>&1
+	module load GCC/12.3.0
+	module load JsonCpp/1.9.5-GCCcore-12.3.0
+	module load cmake
+	module load gnuplot/5.4.8-GCCcore-12.3.0
    ```
 
    - `env-intel.sh` that contains
@@ -138,9 +139,10 @@ It's going to take _a long time_ to start with as it's building third party libr
    - Press `t` to "toggle".
    - In the `CMAKE_CXX_FLAGS_DEBUG` variable, add the `-pg` option. It will enable profiling.
    - Press `c` to "configure".
+   - When that is done Press `e` to "exit".
    - Press `g` to "generate" the project.
 
-7. Compile again. Only the ray-tracer will compile, not the third party libraries. You'll see, it will be faser this time.
+7. Compile again. Only the ray-tracer will compile, not the third party libraries. You'll see, it will be faster this time.
 
 ```bash
 make
