@@ -58,11 +58,12 @@ cd ice-4131-labs/SimpleRayTracing
    - `env-gnu.sh` that contains
 
    ```bash
-    module purge > /dev/null 2>&1
-	module load GCC/12.3.0
-	module load JsonCpp/1.9.5-GCCcore-12.3.0
-	module load cmake
-	module load gnuplot/5.4.8-GCCcore-12.3.0
+   module purge > /dev/null 2>&1
+	 module load GCC/12.3.0
+	 module load JsonCpp/1.9.5-GCCcore-12.3.0
+	 module load cmake
+	 module load gnuplot/5.4.8-GCCcore-12.3.0
+   export CMAKE_POLICY_VERSION_MINIMUM=3.5
    ```
 
    - `env-intel.sh` that contains
