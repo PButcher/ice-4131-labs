@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-#SBATCH -A scw2139                   # Project/Account (use your own)
+#SBATCH -A SCWF00238_p_butcher_233                   # Project/Account (use your own)
 ##SBATCH --mail-user=YOUREMAILADDRESS@bangor.ac.uk  # Where to send mail
 #SBATCH --mail-type=END,FAIL         # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --job-name=RT-serial         # Job name
@@ -11,7 +11,7 @@
 #SBATCH --cpus-per-task=1            # Number of cores per task
 #SBATCH --mem=600mb                  # Total memory limit
 #SBATCH --time=00:50:00              # Time limit hrs:min:sec
-#SBATCH --exclude=ccs[2103-2114]     # Make sure we always use the same CPU.
+##SBATCH --exclude=ccs[2103-2114]     # Make sure we always use the same CPU.
 
 # Clear the environment from any previously loaded modules
 source env-gnu.sh
