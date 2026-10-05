@@ -70,9 +70,10 @@ cd ice-4131-labs/SimpleRayTracing
 
    ```bash
    module purge > /dev/null 2>&1
-   module load cmake
-   module load gnuplot
-   module load compiler/intel/2020/4
+   module load intel-compilers/2025.2.0
+   module load CMake/3.31.8-GCCcore-14.3.0
+   module load gnuplot/6.0.3-GCCcore-14.3.0
+   export CMAKE_POLICY_VERSION_MINIMUM=3.5
    ```
 
 2. Create a directory for binaries compiled with each compiler using `mkdir`, e.g.
