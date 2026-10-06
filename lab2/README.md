@@ -185,16 +185,15 @@ The file should contain the following:
 ```bash
 #!/bin/bash --login
 #
-#SBATCH --job-name=my_test           # Job name
-#SBATCH --output=test.txt
+#SBATCH --job-name=my_test                  # Job name
 #SBATCH --account=SCWF00238_p_butcher_233   # SCW project code
-#SBATCH --partition=htc_genoa        # Partition
-#SBATCH --ntasks=1                   # Run a single task
+#SBATCH --partition=htc_genoa               # Partition
+#SBATCH --ntasks=1                          # Run a single task
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
 #SBATCH --nodes=1
-#SBATCH --mem=600mb                  # Total memory limit
-#SBATCH --time=00:15:00              # Time limit hrs:min:sec
+#SBATCH --mem=600mb                         # Total memory limit
+#SBATCH --time=00:15:00                     # Time limit hrs:min:sec
 
 echo HOSTNAME:
 hostname
