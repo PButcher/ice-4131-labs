@@ -300,7 +300,6 @@ g++ helloworld-pthread4.cxx -lpthread -o helloworld-pthread4
 #!/bin/bash --login
 #
 #SBATCH --job-name=my_test           # Job name
-#SBATCH --output=test.txt
 #SBATCH -A SCWF00238_p_butcher_233   # SCW project code
 #SBATCH --partition=htc_genoa.       # Partition
 #SBATCH --ntasks=1                   # Run a single task
