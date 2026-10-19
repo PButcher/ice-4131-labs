@@ -145,6 +145,13 @@ You should see all the current jobs. In most cases, you are only interested in y
 squeue -u $USER
 ```
 
+If you are waiting for a script to finish before moving on it can be helpful to `watch` the squeue:
+
+```bash
+watch squeue -u $USER
+```
+this will run squeue every 2 seconds by default. When your squeue is empty press `^ + c` or `Ctrl + c` 
+
 Expected output, once you have submitted jobs, is similar to:
 
 ```bash
