@@ -20,7 +20,7 @@ Today's lab will get you using [Pthread](https://pubs.opengroup.org/onlinepubs/7
 4. For a given image size, run the code on the compute nodes with various numbers of threads.
 5. Plot the corresponding graphs.
 
-> To help you get started with Pthread, a live demo will be presented during this session. The recording of this demonstration will be available later on Blackboard if you miss it.
+> A live demo of parallelisng SimpleRayTracing with Pthread will be presented during a future lecture. The recording of this demonstration will be available later on Blackboard if you miss it.
 
 ### Task List
 
@@ -28,10 +28,11 @@ Today's tasks are as follows:
 
 1. [Get the latest updates to this repository](#step-1-get-the-latest-updates-to-this-repository)
 2. [Choose a Compiler](#step-2-choose-a-compiler)
-3. [Identify which portion of the code to parallelise](#step-3-identify-which-portion-of-the-code-to-parallelise)
-4. [Set up `CMakeLists.txt` for Pthread](#step-4-set-up-cmakeliststxt-for-pthread)
-5. [Parallelise this step in `main-pthreads.cxx`](#step-5-parallelise-this-step-in-main-pthreadscxx)
-6. [Run on compute nodes with various numbers of threads](#step-6-run-on-compute-nodes-with-various-numbers-of-threads)
+3. [Choose a new background image for SimpleRayTracing](#step-3-choose-a-new-background-image-for-simpleraytracing)
+4. [Identify which portion of the code to parallelise](#step-4-identify-which-portion-of-the-code-to-parallelise)
+5. [Set up `CMakeLists.txt` for Pthread](#step-5-set-up-cmakeliststxt-for-pthread)
+6. [Parallelise this step in `main-pthreads.cxx`](#step-6-parallelise-this-step-in-main-pthreadscxx)
+7. [Run on compute nodes with various numbers of threads](#step-7-run-on-compute-nodes-with-various-numbers-of-threads)
 
 ---
 
@@ -65,7 +66,7 @@ git stash apply
 
 ## STEP 2: Choose a Compiler
 
-In Lab 3 we worked with the `SimpleRayTracing` application and created a file, `runtime.csv`. Look at the contents of this file as a spreadsheet (you may need to use [WinSCP](https://winscp.net/eng/index.php) or equivalent to download the file from the Supercomputer). There may be some errors in this file but you can delete rows that show errors before performing analysis.
+In Lab 3 we worked with the `SimpleRayTracing` application and created a file, `runtime.csv`. Look at the contents of this file as a spreadsheet. You may use [WinSCP](https://winscp.net/eng/index.php), VSCode, or your preferred file transfer system to download and upload files to and from the Supercomputer. There may be some errors in this file but you can delete rows that show errors each time before performing analysis.
 
 Which performed better, `icc` or `g++`?
 
@@ -132,7 +133,7 @@ plt.savefig('runtime-icc_vs_gcc.png')
 - Load the Python module with:
 
 ```bash
-module load python/3.7.0
+module load python/3.9.6-GCCcore-11.2.0
 ```
 
 - Make sure `matplotlib` and `pandas` are installed:
@@ -153,11 +154,19 @@ python3 plotRuntime.py
 
 - Looking at the plot, which compiler is the fastest? (Find the curve that is the flattest)
 - Once you've identified the fastest compiler, you should use that from now on!
-  - Make sure you call `source env-gnu.sh` or `source env-intel.sh`.
+  - Make sure you call `source env-gnu.sh` or `source env-intel.sh` every time you log in to the Supercomputer.
 
 ---
 
-## STEP 3: Identify which portion of the code to parallelise
+## STEP 3: Choose a new background image for SimpleRayTracing
+
+To ensure you are familiar with how to upload and download files from the Supercomputer and to ensure your output images are unique to your experiments, you are now required to modify the background image in SimpleRayTracing. You should replace the file located at `src/background.jpg` with a new image of your choosing. Make sure you call the file `background.jpg`. For reference, the current `background.jpg` file is 1600x1065 pixels with a file size of 0.5MB (501KB).
+
+As before, you can transfer the image using [WinSCP](https://winscp.net/eng/index.php), VSCode or your preferred file transfer system. Once you replace this image you will need to rebuild SimpleRayTracing following the steps in lab 3 (ensure you build in release mode) using the compiler you have identified as being the fastest. Test your executable to ensure the new image is loaded and produces images as expected.
+
+---
+
+## STEP 4: Identify which portion of the code to parallelise
 
 During lab 3, you generated a file called `serial-profiling.txt`.
 
@@ -167,7 +176,7 @@ During lab 3, you generated a file called `serial-profiling.txt`.
 
 ---
 
-## STEP 4: Set up `CMakeLists.txt` for Pthread
+## STEP 5: Set up `CMakeLists.txt` for Pthread
 
 1. Edit `CMakeLists.txt` and at the end of the file add the following:
 
@@ -189,7 +198,7 @@ As shown in the code here, our source file for our `pthread` implementation is i
 
 ---
 
-## STEP 5: Parallelise this step in `main-pthreads.cxx`
+## STEP 6: Parallelise this step in `main-pthreads.cxx`
 
 > **ESSENTIAL:**
 >
@@ -200,12 +209,10 @@ As shown in the code here, our source file for our `pthread` implementation is i
 A small example application and the steps to parallelising it with `pthread` is available in [`lab4/pthread-example`](./pthread-example/). We will however continue editing files within `SimpleRayTracing`.
 
 1. You should edit `src/main-pthreads.cxx`. You can copy the contents of `main.cxx` into `src/main-pthreads.cxx`.
-
    - Compile.
    - Test.
 
 2. Work load allocation.
-
    - Define a structure to store data required by each thread. You can see an example at [lines 9-15](./pthread-example/pthread-example-step-4.cxx#L9-L15) of [`pthread-example-step-4.cxx`](./pthread-example/pthread-example-step-4.cxx).
    - In your case, the polygon meshes, the light, maybe some other parameters, and the output image have to be accessible from the thread.
      - Compile.
@@ -214,14 +221,12 @@ A small example application and the steps to parallelising it with `pthread` is 
      - Test.
 
 3. Create _T_ threads:
-
    - Use the `pthread_create` function.
    - See the slides from lecture 4 for an explanation
    - See an example on lines [18](./pthread-example/pthread-example-step-5.cxx#L18), [71-78](./pthread-example/pthread-example-step-5.cxx#L71-L78), and [117-121](./pthread-example/pthread-example-step-5.cxx#L117-L121) of [`pthread-example-step-5.cxx`](./pthread-example/pthread-example-step-5.cxx).
    - Compile.
 
 4. Wait for all threads to complete before saving the output image into a file.
-
    - Use the `pthread_join` function.
    - See the slides from week 4 for an explanation
    - See an example on lines [80-84](./pthread-example/pthread-example-step-6.cxx#L80-L84) of [`pthread-example-step-6.cxx`](./pthread-example/pthread-example-step-6.cxx).
@@ -233,7 +238,7 @@ A small example application and the steps to parallelising it with `pthread` is 
 
 ---
 
-## STEP 6: Run on compute nodes with various numbers of threads
+## STEP 7: Run on compute nodes with various numbers of threads
 
 There is a script inside [`SimpleRayTracing`](../SimpleRayTracing/submit-pthread.sh) that submits jobs with various numbers of threads. You'll need to update it:
 
@@ -249,6 +254,8 @@ There is a script inside [`SimpleRayTracing`](../SimpleRayTracing/submit-pthread
 
 This will submit **10** jobs.
 
-Once these jobs are completed, you can modify `plotRuntime.py` to plot more data.
+If the jobs do not run successfully (e.g. you run out of memory), check the error files and make appropriate adjustments to either your C++ code or the slurm script depending on the type of error you receive. Seek assistance if you cannot get things working.
+
+Once these jobs are completed successfully, you can modify `plotRuntime.py` to plot more data.
 
 **This concludes lab 4**
