@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-#SBATCH -A scw2139                   # Project/Account (use your own)
+#SBATCH -A SCWF00238_p_butcher_233                   # Project/Account (use your own)
 ##SBATCH --mail-user=YOUREMAILADDRESS@bangor.ac.uk  # Where to send mail
 #SBATCH --mail-type=END,FAIL         # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --job-name=RT-serial         # Job name

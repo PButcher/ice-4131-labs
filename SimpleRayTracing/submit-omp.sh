@@ -10,7 +10,7 @@ for thread_number in 160 80 40 24 16 8 4 1
 do
 	echo "#!/usr/bin/env bash" > submit-omp-$thread_number.sh
 	echo "#" >> submit-omp-$thread_number.sh
-	echo "#SBATCH -A scw2139                   # Project/Account (use your own)" >> submit-omp-$thread_number.sh
+	echo "#SBATCH -A SCWF00238_p_butcher_233                   # Project/Account (use your own)" >> submit-omp-$thread_number.sh
 	echo "##SBATCH --mail-user=YOUREMAILADDRESS@bangor.ac.uk  # Where to send mail" >> submit-omp-$thread_number.sh
 	echo "#SBATCH --mail-type=END,FAIL         # Mail events (NONE, BEGIN, END, FAIL, ALL)" >> submit-omp-$thread_number.sh
 	echo "#SBATCH --job-name=RT-$thread_number-omp       # Job name" >> submit-omp-$thread_number.sh
@@ -18,7 +18,7 @@ do
 	echo "#SBATCH --error ray_tracing-%j.err   #" >> submit-omp-$thread_number.sh
 	echo "#SBATCH --nodes=1                    # Use one node" >> submit-omp-$thread_number.sh
 	echo "#SBATCH --ntasks-per-node=1          # Number of tasks per node" >> submit-omp-$thread_number.sh
-	echo "#SBATCH --exclude=ccs[2103-2114]     # Make sure we always use the same CPU." >> submit-omp-$thread_number.sh
+	echo "##SBATCH --exclude=ccs[2103-2114]     # Make sure we always use the same CPU." >> submit-omp-$thread_number.sh
 
  	if [ "$thread_number" -ge "40" ]
 	then

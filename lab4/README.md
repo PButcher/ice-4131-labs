@@ -254,7 +254,7 @@ There is a script inside [`SimpleRayTracing`](../SimpleRayTracing/submit-pthread
 
 This will submit **10** jobs.
 
-If the jobs do not run successfully (e.g. you run out of memory), check the error files and make appropriate adjustments to either your C++ code or the slurm script depending on the type of error you receive. Seek assistance if you cannot get things working.
+If the jobs do not run successfully (e.g. you run out of memory), check the error files and make appropriate adjustments to either your C++ code or the slurm script depending on the type of error you receive. When you check the job queue, you may see the `QOSMax_JobsPerUserLimit` note next to some jobs, this is due to rate limits on certain partitions. Ensure you choose an appropriate partition for the type of job you are running otherwise you may have to wait longer for your jobs to be allocated. Seek assistance if you cannot get things working.
 
 Once these jobs are completed successfully, you can modify `plotRuntime.py` to plot more data.
 
