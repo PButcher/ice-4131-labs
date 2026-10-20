@@ -133,7 +133,7 @@ plt.savefig('runtime-icc_vs_gcc.png')
 - Load the Python module with:
 
 ```bash
-module load python/3.9.6-GCCcore-11.2.0
+module load Python/3.9.6-GCCcore-11.2.0
 ```
 
 - Make sure `matplotlib` and `pandas` are installed:
