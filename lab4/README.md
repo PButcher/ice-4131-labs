@@ -154,9 +154,9 @@ python3 plotRuntime.py
 
 - To view these image we need to download them from the server, we can do that with the following command:
 
-  ```bash
-       scp -J YOUR_BANGOR_USERNAME@ssh.bangor.ac.uk YOUR_FALCON_USERNAME@falconlogin.cf.ac.uk:/shared/home1/YOUR_FALCON_USERNAME/PATH_TO_FILE .
-  ```
+```bash
+scp -J YOUR_BANGOR_USERNAME@ssh.bangor.ac.uk YOUR_FALCON_USERNAME@falconlogin.cf.ac.uk:/shared/home1/YOUR_FALCON_USERNAME/PATH_TO_FILE .
+```
 
 - Looking at the plot, which compiler is the fastest? (Find the curve that is the flattest)
 - Once you've identified the fastest compiler, you should use that from now on!
