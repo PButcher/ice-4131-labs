@@ -4,7 +4,7 @@ width=2048
 height=2048
 
 module purge > /dev/null 2>&1
-module load cmake mpi/intel
+# module load cmake mpi/intel
 
 for thread_number in 160 80 40 24 16 8 4 1
 do

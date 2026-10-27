@@ -54,15 +54,14 @@ cd ice-4131-labs/SimpleRayTracing
 ## STEP 2: Compiling Environments
 
 1. Create two scripts to set your environment. One for the GNU C++ compiler (`g++`); one for Intel's (`icc`). In the current directory (which should be `SimpleRayTracing`), create:
-
    - `env-gnu.sh` that contains
 
    ```bash
    module purge > /dev/null 2>&1
-	 module load GCC/12.3.0
-	 module load JsonCpp/1.9.5-GCCcore-12.3.0
-	 module load cmake
-	 module load gnuplot/5.4.8-GCCcore-12.3.0
+   module load GCC/12.3.0
+   module load JsonCpp/1.9.5-GCCcore-12.3.0
+   module load cmake
+   module load gnuplot/5.4.8-GCCcore-12.3.0
    export CMAKE_POLICY_VERSION_MINIMUM=3.5
    ```
 
@@ -126,7 +125,6 @@ make
 It's going to take _a long time_ to start with as it's building third party libraries to load 3D models. Be patient and don't worry, things _are_ happening.
 
 6. Enable profiling: By default CMake will enable the `Release` mode for producing code that is fast. You don't want that for now as we need to assess the program to know what is slow.
-
    - Run `ccmake .` (yes, two `c`s). You can use one or two dots, it does not matter as CMake already knows where `CMakeLists.txt` is!
 
    ```bash

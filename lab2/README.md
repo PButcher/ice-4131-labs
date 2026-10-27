@@ -150,7 +150,8 @@ If you are waiting for a script to finish before moving on it can be helpful to 
 ```bash
 watch squeue -u $USER
 ```
-this will run squeue every 2 seconds by default. When your squeue is empty press `^ + c` or `Ctrl + c` 
+
+this will run `squeue` every 2 seconds by default. When your squeue is empty press `^ + c` or `Ctrl + c`
 
 Expected output, once you have submitted jobs, is similar to:
 
@@ -307,7 +308,7 @@ g++ helloworld-pthread4.cxx -lpthread -o helloworld-pthread4
 #
 #SBATCH --job-name=my_test           # Job name
 #SBATCH -A SCWF00238_p_butcher_233   # SCW project code
-#SBATCH --partition=htc_genoa.       # Partition
+#SBATCH --partition=htc_genoa        # Partition
 #SBATCH --ntasks=1                   # Run a single task
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1

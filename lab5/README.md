@@ -289,7 +289,7 @@ endif()
 
 To run your program:
 
-1. Launch a job using SLURM. Do not run it directly on `hawklogin.cf.ac.uk`. Be considerate to other users, this is a shared resource!
+1. Launch a job using SLURM. Do not run it directly on `falconlogin.cf.ac.uk`. Be considerate to other users, this is a shared resource!
 
 2. See `lab2` for an explanation.
 
@@ -302,31 +302,32 @@ You can edit `submit-omp.sh` to use your email address in `echo ##SBATCH --mail-
 ```bash
 #!/usr/bin/env bash
 #
-#SBATCH -A scw2139                   # Project/Account (use your own)
-##SBATCH --mail-user=YOUREMAILADDRESS@bangor.ac.uk # Where to send mail
+#SBATCH -A SCWF00238_p_butcher_233                   # Project/Account (use your own)
+##SBATCH --mail-user=YOUREMAILADDRESS@bangor.ac.uk  # Where to send mail
 #SBATCH --mail-type=END,FAIL         # Mail events (NONE, BEGIN, END, FAIL, ALL)
-#SBATCH --job-name=RT-40-omp         # Job name
+#SBATCH --job-name=RT-40-omp       # Job name
 #SBATCH --output ray_tracing-%j.out  #
 #SBATCH --error ray_tracing-%j.err   #
 #SBATCH --nodes=1                    # Use one node
 #SBATCH --ntasks-per-node=1          # Number of tasks per node
-#SBATCH --cpus-per-task=40           # Number of cores per task
+##SBATCH --exclude=ccs[2103-2114]     # Make sure we always use the same CPU.
+#SBATCH --cpus-per-task=40            # Number of cores per task
 #SBATCH --time=00:25:00              # Time limit hrs:min:sec
-#SBATCH --mem=600mb                  # Total memory limit
+#SBATCH --mem=1200mb                  # Total memory limit
 thread_number=40
-module purge > /dev/null 2>&1
-module load cmake mpi/intel
-COMPILER="icc (ICC) 18.0.2 20180210"
+source env-gnu.sh
+COMPILER="gcc (GCC) 11.5.0 20240719 (Red Hat 11.5.0-14)"
 TEMP=`lscpu|grep "Model name:"`
 IFS=':' read -ra CPU_MODEL <<< "$TEMP"
 width=2048
 height=2048
 echo Run ./main-omp with 40 threads.
 export OMP_NUM_THREADS=40
-/usr/bin/time --format='%e' ./bin-release-gcc/main-omp --size 2048 2048 --jpeg omp-40-2048x2048.jpg 2> temp-omp-40
+/usr/bin/time --format='%e' ./bin-gnu/main-omp --size 2048 2048 --jpeg omp-40-2048x2048.jpg 2> temp-omp-40
 RUNTIME=`cat temp-omp-40`
 echo ${CPU_MODEL[1]},omp,$thread_number,1,$COMPILER,${width}x$height,$RUNTIME >> timing-omp-40.csv
 #rm temp-omp-40
+
 ```
 
 4. To launch the job, use:
@@ -339,7 +340,7 @@ echo ${CPU_MODEL[1]},omp,$thread_number,1,$COMPILER,${width}x$height,$RUNTIME >>
 
 6. When the job is terminated, you'll have new files. Examine their content. Are the JPEG files as expected?
 
-7. To see the new images, download them from `hawklogin.cf.ac.uk` to your PC using WinSCP.
+7. To see the new images, download them from `falconlogin.cf.ac.uk` to your PC using WinSCP or VSCode.
 
 8. Only go to the next section when everything works as expected. If not, debug your code.
 
