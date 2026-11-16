@@ -298,7 +298,7 @@ void checkMPIError(int errorCode) {
 
 ### STEP 6: Run Your Program
 
-1. To run your program, launch a job. **DO NOT RUN IT DIRECTLY ON `hawklogin.cf.ac.uk`**. Be considerate to other users, this is a shared resource.
+1. To run your program, launch a job. **DO NOT RUN IT DIRECTLY ON `falconlogin.cf.ac.uk`**. Be considerate to other users, this is a shared resource.
 
 2. See [Lab 2](../lab2/) for an explanation.
 
