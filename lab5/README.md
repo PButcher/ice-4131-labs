@@ -173,7 +173,7 @@ Follow the instructions from last time to load the Python modules and to run the
 
 - cmake
 - gnuplot
-- gcc 9.2.0
+- gcc 12.3.0
 
 > **ESSENTIAL:** You need to run `env-gnu.sh` every time you log in to ensure the correct modules are loaded.
 
