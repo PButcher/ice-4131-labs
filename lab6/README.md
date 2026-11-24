@@ -71,7 +71,17 @@ git stash apply
 module available mpi
 ```
 
-2. Next, edit `env-gnu.sh` and load an MPI implementation, e.g. OpenMPI.
+2. Next, edit `env-gnu.sh` and load an MPI implementation, e.g. OpenMPI. The following is recommended:
+
+```bash
+module load OpenMPI/4.1.5-GCC-12.3.0
+```
+
+We will also need to load `libjpeg`, the purpose of which will be explained later:
+
+```bash
+module load libjpeg-turbo/2.1.5.1-GCCcore-12.3.0
+```
 
 3. Load the file and setup the environment with:
 
@@ -298,61 +308,69 @@ void checkMPIError(int errorCode) {
 
 ### STEP 6: Run Your Program
 
-1. To run your program, launch a job. **DO NOT RUN IT DIRECTLY ON `falconlogin.cf.ac.uk`**. Be considerate to other users, this is a shared resource.
+> [!NOTE]  
+> Update: The following steps have been updated on November 24th 2026. You will need to pull the latest changes to the repository if you have not done so until then. The change relates to the provided slurm script not loading modules appropriate for different partition microarchitectures (Zen4 on Genoa, Zen2 on Rome). There is also an update to `env-gnu.sh` which is required for this portion of the lab. If you have any issues with the following steps, please speak to the module organisers.
 
-2. See [Lab 2](../lab2/) for an explanation.
-
-3. A script is provided for your convenience, [`submit-mpi.sh`](../SimpleRayTracing/submit-mpi.sh). Edit this file to use your project code and email address as before.
-
-`submit-mpi.sh` creates another 4*8=32 scripts named `submit-mpi-*-\*.sh` and submits the jobs with 1, 2, 3, and 4 nodes with 1, 4, 8, 16, 24, 40, 80 and 160 processes on each node.
-
-For example, the script below `submit-mpi-4-40.sh` is the script used to submit a job with 40 processes on 4 nodes, i.e. a total of 160 processes.
+1. Update `env-gnu.sh` by adding the following line below the other loaded modules:
 
 ```bash
-#!/usr/bin/env bash
+module load libjpeg-turbo/2.1.5.1-GCCcore-12.3.0
+```
+
+2. To run your program, launch a job. **DO NOT RUN IT DIRECTLY ON `falconlogin.cf.ac.uk`**. Be considerate to other users, this is a shared resource.
+
+See [Lab 2](../lab2/) for an explanation.
+
+A script is provided for your convenience, [`submit-mpi.sh`](../SimpleRayTracing/submit-mpi.sh). Edit this file to use your project code and email address as before. You should also edit this file to submit jobs to various numbers of nodes and processes. Bear in mind there is a limit to the number of processes you can start at once (currently 96 at the time of writing). This scripts specifies jobs run on the `htc_rome` (Zen2) partition, which is recommended for parallel MPI jobs.
+
+`submit-mpi.sh` currently creates another 2*2=4 scripts named `submit-mpi-*-\*.sh` and submits the jobs with 1, 2 nodes with 24, 48 processes on each node 24+48+24+48 = 192 processes. Slurm will only allow you to run 96 processes so some jobs will wait until others have completed before starting.
+
+For example, the script below `submit-mpi-2-48.sh` is the script used to submit a job with 48 processes on 2 nodes, i.e. a total of 96 processes.
+
+```bash
+#!/usr/bin/env -S bash --login
 #
-#SBATCH -A scw2139                   # Project/Account (use your own)
-##SBATCH --mail-user=YOUREMAILADDRESS@bangor.ac.uk  # Where to send mail
+#SBATCH -A SCWF00238_p_butcher_233   # Project/Account (use your own)
+##SBATCH --mail-user=YOUR_EMAIL_ADDRESS@bangor.ac.uk  # Where to send mail
 #SBATCH --mail-type=END,FAIL         # Mail events (NONE, BEGIN, END, FAIL, ALL)
-#SBATCH --job-name=RT-4-40-MPI       # Job name
+#SBATCH --job-name=RT-2-48-MPI       # Job name
 #SBATCH --output ray_tracing-%j.out  #
 #SBATCH --error ray_tracing-%j.err   #
-#SBATCH --nodes=4                    # Use one node
+#SBATCH --nodes=2                    # Use one node
 #SBATCH --cpus-per-task=1            # Number of cores per task
-#SBATCH --ntasks-per-node=40         # Number of tasks per node
+#SBATCH --partition=htc_rome         # Partition
+#SBATCH --ntasks-per-node=48         # Number of tasks per node
 #SBATCH --time=00:25:00              # Time limit hrs:min:sec
-#SBATCH --mem=600mb                  # Total memory limit
-process_number=40
+#SBATCH --mem=5GB                    # Total memory limit
+process_number=48
 module purge > /dev/null 2>&1
-module load cmake mpi/intel
-COMPILER="gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39)"
-COMPILER="icc (ICC) 18.0.2 20180210"
+source env-gnu.sh
+COMPILER="gcc (GCC) 12.3.0"
 TEMP=`lscpu|grep "Model name:"`
 IFS=':' read -ra CPU_MODEL <<< "$TEMP"
 width=2048
 height=2048
-echo Run ./main-mpi with 40 processes.
-/usr/bin/time --format='%e' mpirun  ./bin-release-gcc/main-mpi --size 2048 2048 --jpeg mpi-4-40-2048x2048.jpg 2> temp-mpi-4-40
-RUNTIME=`cat temp-mpi-4-40`
-echo ${CPU_MODEL[1]},MPI,$process_number,4,$COMPILER,${width}x$height,$RUNTIME >> timing-mpi-4-40.csv
-#rm temp-mpi-4-40
+echo Run ./bin-gnu/main-mpi with 48 processes.
+/usr/bin/time --format='%e' mpirun  ./bin-gnu-rome/main-mpi --size 2048 2048 --jpeg mpi-2-48-128x128.jpg 2> temp-mpi-2-48
+RUNTIME=`cat temp-mpi-2-48`
+echo ${CPU_MODEL[1]},MPI,$process_number,2,$COMPILER,${width}x$height,$RUNTIME >> timing-mpi-2-48.csv
 ```
 
-4. To launch `submit-mpi.sh` use:
+3. To launch `submit-mpi.sh` use:
 
 ```bash
 ./submit-mpi.sh
 ```
 
-5. Wait for the job to complete. Use:
+4. Wait for the job to complete. Use:
 
 ```bash
 squeue -u $USER
 ```
 
-6. When the job is terminated you will have new files. Examine their content. Are the JPEG files as expected?
+5. When the job is terminated you will have new files. Examine their content. Are the JPEG files as expected?
 
-7. To see the new images, download them from the Supercomputer to your PC.
+6. To see the new images, download them from the Supercomputer to your PC.
 
 Only proceed to the next step when everything works as expected. If not, debug your code or seek assistance.
 
@@ -362,7 +380,7 @@ Only proceed to the next step when everything works as expected. If not, debug y
 
 1. A shell script, [`createTiming.sh`](../SimpleRayTracing/createTiming.sh) is provided for your own convenience. It will concatenate the runtimes for all jobs that completed using serial, Pthread, OpenMP, and MPI. It creates a spreadsheet: `timing.csv`.
 
-Below is an example of the output that could be obtained from SCW:
+<!-- Below is an example of the output that could be obtained from SCW:
 
 | CPU                                      | Parallelisation | Number of threads/processes per node | Number of nodes | Compiler                  | Image size | Runtime in sec |
 | ---------------------------------------- | --------------- | ------------------------------------ | --------------- | ------------------------- | ---------- | -------------- |
@@ -411,12 +429,12 @@ Below is an example of the output that could be obtained from SCW:
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | MPI             | 24                                   | 4               | icc (ICC) 18.0.2 20180210 | 2048x2048  | 36.93          |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | MPI             | 40                                   | 4               | icc (ICC) 18.0.2 20180210 | 2048x2048  | 23.23          |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | MPI             | 80                                   | 4               | icc (ICC) 18.0.2 20180210 | 2048x2048  | 22.89          |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | MPI             | 160                                  | 4               | icc (ICC) 18.0.2 20180210 | 2048x2048  | 21.81          |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | MPI             | 160                                  | 4               | icc (ICC) 18.0.2 20180210 | 2048x2048  | 21.81          | -->
 
 2. Plot the results using Python3 and matplotlib using the [`plotTiming.py`](../SimpleRayTracing/plotTiming.py) script provided:
 
 ```bash
-module load python/3.7.0
+module load Python/3.9.6-GCCcore-11.2.0
 python3 -m pip install numpy pandas matplotlib
 python3 plotTiming.py
 ```
@@ -428,7 +446,7 @@ This will create four files:
 - `speedup.pdf`
 - `speedup.png`
 
-Example expected outputs are as follows:
+<!-- Example expected outputs may look as follows:
 
 - Runtimes:
 
@@ -436,9 +454,12 @@ Example expected outputs are as follows:
 
 - Speedup:
 
-![Speedup](./assets/speedup.png)
+![Speedup](./assets/speedup.png) -->
+
+Consider the following:
 
 - What can you conclude from these graphs? Compare the relative speedup provided by both APIs.
-- Can you see that processes are heavier than threads?
+- Can you see that processes are heavier than threads, especially as we are limited as to the number we can spawn?
+- How would these graphs change if we then used multi-threading on each process (lab 7 covers this).
 
 **This concludes lab 6**
