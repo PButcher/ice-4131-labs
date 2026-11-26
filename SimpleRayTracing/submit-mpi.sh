@@ -54,7 +54,7 @@ do
 
         echo "echo Run ./bin-gnu/main-mpi with $process_number processes." >> submit-MPI-$NODES-$process_number.sh
 
-        echo "/usr/bin/time --format='%e' mpirun  ./bin-gnu-rome/main-mpi --size $width $height --jpeg mpi-$NODES-$process_number-${width}x$height.jpg 2> temp-mpi-$NODES-$process_number" >> submit-MPI-$NODES-$process_number.sh
+        echo "/usr/bin/time --format='%e' mpirun  ./bin-gnu/main-mpi --size $width $height --jpeg mpi-$NODES-$process_number-${width}x$height.jpg 2> temp-mpi-$NODES-$process_number" >> submit-MPI-$NODES-$process_number.sh
 
         echo "RUNTIME=\`cat temp-mpi-$NODES-$process_number\`" >> submit-MPI-$NODES-$process_number.sh
 
