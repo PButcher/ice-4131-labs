@@ -15,7 +15,7 @@ do
         echo "#!/usr/bin/env -S bash --login" > submit-MPI-$NODES-$process_number.sh
         echo "#" >> submit-MPI-$NODES-$process_number.sh
         echo "#SBATCH -A SCWF00238_p_butcher_233                   # Project/Account (use your own)" >> submit-MPI-$NODES-$process_number.sh
-        echo "#SBATCH --mail-user=ptb18xhf@bangor.ac.uk  # Where to send mail" >> submit-MPI-$NODES-$process_number.sh
+        echo "##SBATCH --mail-user=YOUR_EMAIL_ADDRESS@bangor.ac.uk  # Where to send mail" >> submit-MPI-$NODES-$process_number.sh
         echo "#SBATCH --mail-type=END,FAIL         # Mail events (NONE, BEGIN, END, FAIL, ALL)" >> submit-MPI-$NODES-$process_number.sh
         echo "#SBATCH --job-name=RT-$NODES-$process_number-MPI       # Job name" >> submit-MPI-$NODES-$process_number.sh
         echo "#SBATCH --output ray_tracing-%j.out  #" >> submit-MPI-$NODES-$process_number.sh
